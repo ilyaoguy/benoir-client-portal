@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benoir Travel — Client Portal</title>
+  <link rel="icon" type="image/svg+xml" href="assets/Favicon_white.svg" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="assets/Favicon_white.svg" alt="Benoir" style="height:36px;width:36px;border-radius:8px;" />
+      <div>
+        <div class="brand-name">Benoir</div>
+        <div class="brand-sub">Client Portal</div>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-section-label">Main</div>
+
+      <div class="nav-item active" data-page="home">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>Home</span>
+      </div>
+
+      <div class="nav-item" data-page="bookings">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>Bookings</span>
+      </div>
+
+      <div class="nav-section-label">Operations</div>
+
+      <div class="nav-item" data-page="support">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Support</span>
+      </div>
+
+      <div class="nav-item" data-page="finance">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <span>Finance</span>
+      </div>
+
+      <div class="nav-section-label">Tools</div>
+
+      <div class="nav-item" data-page="hotel-dump">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+        </svg>
+        <span>Hotel Dump &amp; ID Search</span>
+      </div>
+
+      <div class="nav-item" data-page="price-check">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+        <span>Price Check &amp; Book</span>
+      </div>
+
+      <div class="nav-section-label">Admin</div>
+
+      <div class="nav-item" data-page="users">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Users</span>
+      </div>
+
+      <div class="nav-item" data-page="account">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0 1 16 0v1"/>
+        </svg>
+        <span>Account</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">v1.0 · Benoir Travel</div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 id="greeting">Dashboard</h1>
+        <p id="topbar-sub">Overview</p>
+      </div>
+      <div class="topbar-right">
+        <button class="date-range-btn" id="date-range-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <span class="date-label">Last 30 days</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="avatar" id="avatar-btn">IL</div>
+        <div class="user-menu" id="user-menu">
+          <div class="user-menu-item" id="menu-token">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Token &amp; Session
+          </div>
+          <div class="user-menu-item" onclick="window.open('#','_blank')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            API Documentation
+          </div>
+          <div class="user-menu-divider"></div>
+          <div class="user-menu-item danger" id="menu-signout">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Date dropdown -->
+    <div class="dropdown-overlay" id="dropdown-overlay"></div>
+    <div class="date-dropdown" id="date-dropdown">
+      <div class="date-option" data-range="7d">Last 7 days</div>
+      <div class="date-option active" data-range="30d">Last 30 days</div>
+      <div class="date-option" data-range="90d">Last 90 days</div>
+      <div class="date-option" data-range="ytd">Year to date</div>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="content">
+
+      <!-- ========== HOME PAGE ========== -->
+      <div class="page active" id="page-home">
+
+        <!-- 1. Overview KPIs -->
+        <div class="section-title">Overview</div>
+        <div class="overview-grid">
+
+          <div class="kpi-card" id="kpi-sales">
+            <div class="kpi-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1fa463" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Sales (USD)
+            </div>
+            <div class="kpi-value">—</div>
+            <div class="kpi-change neutral">—</div>
+          </div>
+
+          <div class="kpi-card" id="kpi-bookings">
+            <div class="kpi-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0097b8" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Bookings
+            </div>
+            <div class="kpi-value">—</div>
+            <div class="kpi-change neutral">—</div>
+          </div>
+
+          <div class="kpi-card" id="kpi-confirmed">
+            <div class="kpi-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1fa463" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Confirmed
+            </div>
+            <div class="kpi-value">—</div>
+            <div class="kpi-change neutral">—</div>
+          </div>
+
+          <div class="kpi-card" id="kpi-cancellations">
+            <div class="kpi-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#E53E3E" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Cancellations
+            </div>
+            <div class="kpi-value">—</div>
+            <div class="kpi-change neutral">—</div>
+          </div>
+
+          <div class="kpi-card" id="kpi-avgvalue">
+            <div class="kpi-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Avg Booking Value
+            </div>
+            <div class="kpi-value">—</div>
+            <div class="kpi-change neutral">—</div>
+          </div>
+
+          <div class="kpi-card" id="kpi-leadtime">
+            <div class="kpi-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0052CC" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Lead Time
+            </div>
+            <div class="kpi-value">—</div>
+            <div class="kpi-change neutral">—</div>
+          </div>
+
+          <div class="kpi-card" id="kpi-los">
+            <div class="kpi-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#425466" stroke-width="2.5"><path d="M3 17l4-4 4 4 6-8"/></svg>
+              Length of Stay
+            </div>
+            <div class="kpi-value">—</div>
+            <div class="kpi-change neutral">—</div>
+          </div>
+
+        </div>
+
+        <!-- 2. Today's Barometer -->
+        <div class="section-title">Today's Barometer</div>
+        <div class="barometer-grid">
+
+          <div class="baro-card">
+            <div class="baro-icon-wrap green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="baro-label">Check-ins</div>
+              <div class="baro-value" id="baro-checkins">0</div>
+              <div class="baro-sub">Today</div>
+            </div>
+          </div>
+
+          <div class="baro-card">
+            <div class="baro-icon-wrap amber">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="baro-label">Check-outs</div>
+              <div class="baro-value" id="baro-checkouts">0</div>
+              <div class="baro-sub">Today</div>
+            </div>
+          </div>
+
+          <div class="baro-card">
+            <div class="baro-icon-wrap cyan">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <div>
+              <div class="baro-label">Current Stays</div>
+              <div class="baro-value" id="baro-current">0</div>
+              <div class="baro-sub">In-house guests</div>
+            </div>
+          </div>
+
+          <div class="baro-card">
+            <div class="baro-icon-wrap navy">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </div>
+            <div>
+              <div class="baro-label">Tomorrow Check-ins</div>
+              <div class="baro-value" id="baro-tomorrow">0</div>
+              <div class="baro-sub">Arriving tomorrow</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. Finance -->
+        <div class="section-title">Finance</div>
+        <div class="finance-row">
+
+          <div class="fin-card">
+            <div class="fin-label">Credit Limit</div>
+            <div class="fin-value" id="fin-credit-limit">—</div>
+            <div class="fin-sub" id="fin-credit-used">—</div>
+          </div>
+
+          <div class="fin-card">
+            <div class="fin-label">Credit Utilization</div>
+            <div class="fin-value" id="credit-usage-pct">—</div>
+            <div class="credit-bar-wrap">
+              <div class="credit-bar-track">
+                <div class="credit-bar-fill" id="credit-bar-fill" style="width:0%"></div>
+              </div>
+              <div class="credit-bar-labels">
+                <span>0%</span>
+                <span>50%</span>
+                <span>100%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fin-card">
+            <div class="fin-label">Payment Due</div>
+            <div class="fin-value" id="fin-payment-due">—</div>
+            <div class="fin-sub">Next invoice amount</div>
+          </div>
+
+          <div class="fin-card">
+            <div class="fin-label">Days Left for Payment</div>
+            <div class="fin-value" id="fin-days-left">—</div>
+            <div style="margin-top:6px"><span class="badge green" id="fin-days-badge">On track</span></div>
+          </div>
+
+        </div>
+
+        <!-- 4. Sales & Bookings Chart -->
+        <div class="chart-card">
+          <div class="card-title">
+            Daily Sales & Bookings
+            <span style="font-size:11px;font-weight:500;color:var(--text-muted)" id="chart-range-label">Last 30 days</span>
+          </div>
+          <canvas id="sales-chart"></canvas>
+        </div>
+
+      </div><!-- /page-home -->
+
+      <!-- ========== HOTEL DUMP & ID SEARCH PAGE ========== -->
+      <div class="page" id="page-hotel-dump">
+
+        <!-- Section 1: Hotel Dump -->
+        <div class="hd-section-title">Hotel Dump</div>
+        <div class="card hd-dump-card">
+          <div class="hd-dump-row">
+            <div>
+              <div class="hd-meta-label">Latest Update</div>
+              <div class="hd-meta-value" id="dump-update-date">—</div>
+            </div>
+            <a class="hd-download-btn" href="https://storage.yandexcloud.net/benoir-storage/hotel_dumps/seed/flyway_00000000.jsonl.gz" download>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Full Hotel Dump
+            </a>
+          </div>
+          <div class="hd-dump-note">JSONL·GZ format · Contains full hotel inventory with IDs, names, locations and metadata</div>
+        </div>
+
+        <!-- Section 2: Hotel ID Search -->
+        <div class="hd-section-title" style="margin-top:28px;">Hotel ID Search</div>
+        <div class="card">
+          <!-- Filters -->
+          <div class="hd-filters">
+            <div class="hd-filter-group">
+              <label class="hd-filter-label">Country</label>
+              <select class="hd-select" id="filter-country">
+                <option value="">Any country</option>
+              </select>
+            </div>
+            <div class="hd-filter-group">
+              <label class="hd-filter-label">Stars</label>
+              <select class="hd-select" id="filter-stars">
+                <option value="">Any stars</option>
+                <option value="3">⭐⭐⭐ 3 Stars</option>
+                <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+                <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+              </select>
+            </div>
+            <div class="hd-filter-group" style="flex:2;">
+              <label class="hd-filter-label">Name / Keyword <span style="font-weight:400;color:var(--text-muted)">(exact match)</span></label>
+              <input class="hd-input" type="text" id="filter-name" placeholder="e.g. Marriott, Hilton…" />
+            </div>
+            <div class="hd-filter-group hd-filter-action">
+              <button class="hd-search-btn" id="hd-search-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                Search
+              </button>
+            </div>
+          </div>
+          <div class="hd-filter-hint" id="hd-filter-hint" style="display:none;">
+            ⚠ Please select at least one filter before searching.
+          </div>
+
+          <!-- Results table -->
+          <div id="hd-results-wrap" style="display:none;margin-top:20px;">
+            <div class="hd-table-header">
+              <span class="hd-results-count" id="hd-results-count"></span>
+            </div>
+            <div class="hd-table-wrap">
+              <table class="hd-table" id="hd-results-table">
+                <thead>
+                  <tr>
+                    <th style="width:36px;"></th>
+                    <th>Hotel Name</th>
+                    <th>Stars</th>
+                    <th>Country</th>
+                    <th>HID</th>
+                  </tr>
+                </thead>
+                <tbody id="hd-results-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div id="hd-no-results" style="display:none;" class="hd-empty">No hotels match your search. Try different filters.</div>
+        </div>
+
+        <!-- Section 3: Selected Hotels -->
+        <div class="hd-section-title" style="margin-top:28px;">
+          Selected Hotels
+          <button class="hd-clear-btn" id="hd-clear-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+            Clear Table
+          </button>
+        </div>
+        <div class="card">
+          <div class="hd-hid-row">
+            <div style="flex:1;">
+              <div class="hd-filter-label" style="margin-bottom:6px;">Selected HIDs</div>
+              <div class="hd-hid-box">
+                <span id="selected-hids-text" style="flex:1;word-break:break-all;color:var(--text-sec);font-family:'Courier New',monospace;font-size:12px;">—</span>
+                <button class="copy-btn" id="copy-hids-btn">Copy</button>
+              </div>
+            </div>
+          </div>
+          <div class="hd-table-wrap" style="margin-top:16px;">
+            <table class="hd-table" id="selected-table">
+              <thead>
+                <tr>
+                  <th style="width:36px;"></th>
+                  <th>Hotel Name</th>
+                  <th>Stars</th>
+                  <th>Country</th>
+                  <th>HID</th>
+                </tr>
+              </thead>
+              <tbody id="selected-tbody">
+                <tr id="selected-empty-row"><td colspan="5" class="hd-empty">No hotels selected yet. Use the search above to find and select hotels.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+
+<!-- ========== PRICE CHECK & BOOK PAGE ========== -->
+      <div class="page" id="page-price-check">
+
+        <!-- Search form -->
+        <div class="card pc-form-card">
+          <div class="pc-form-grid">
+            <div class="pc-field">
+              <label class="pc-label">Check-in</label>
+              <input type="date" class="pc-input" id="pc-checkin" />
+            </div>
+            <div class="pc-field">
+              <label class="pc-label">Check-out</label>
+              <input type="date" class="pc-input" id="pc-checkout" />
+            </div>
+            <div class="pc-field pc-field-sm">
+              <label class="pc-label">Adults</label>
+              <input type="number" class="pc-input" id="pc-adults" value="2" min="1" max="10" />
+            </div>
+            <div class="pc-field">
+              <label class="pc-label">Children ages <span class="pc-hint">comma-separated</span></label>
+              <input type="text" class="pc-input" id="pc-children" placeholder="e.g. 5, 8" />
+            </div>
+            <div class="pc-field">
+              <label class="pc-label">Sort by price</label>
+              <select class="pc-input" id="pc-sort">
+                <option value="asc" selected>Ascending ↑</option>
+                <option value="desc">Descending ↓</option>
+              </select>
+            </div>
+            <div class="pc-field pc-field-sm">
+              <label class="pc-label">Timeout (sec)</label>
+              <input type="number" class="pc-input" id="pc-timeout" value="30" min="5" max="120" />
+            </div>
+            <div class="pc-field" style="flex:2;">
+              <label class="pc-label">Hotel IDs <span class="pc-hint">comma-separated</span></label>
+              <input type="text" class="pc-input" id="pc-hotel-ids" placeholder="e.g. H00001, H00002" />
+            </div>
+            <div class="pc-field pc-field-action">
+              <button class="pc-search-btn" id="pc-search-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                Search
+              </button>
+            </div>
+          </div>
+          <div class="pc-form-error" id="pc-form-error" style="display:none;"></div>
+        </div>
+
+        <!-- Loading -->
+        <div id="pc-loading" style="display:none;" class="pc-loading">
+          <div class="pc-spinner"></div>
+          <span>Searching for availability…</span>
+        </div>
+
+        <!-- Results -->
+        <div id="pc-results" style="display:none;">
+          <div class="pc-results-header">
+            <span id="pc-results-summary"></span>
+          </div>
+          <div id="pc-hotels-list"></div>
+        </div>
+
+        <div id="pc-no-results" style="display:none;" class="hd-empty">
+          No availability found for the selected dates and parameters.
+        </div>
+
+      </div>
+
+      <!-- ========== BOOKINGS PAGE ========== -->
+      <div class="page" id="page-bookings">
+
+        <!-- Filter panel -->
+        <div class="card bk-filter-card">
+
+          <!-- Row 1: free text search -->
+          <div class="bk-filter-row">
+            <div class="pc-field" style="flex:1;">
+              <label class="pc-label">Booking ID</label>
+              <input type="text" class="pc-input" id="bk-f-id" placeholder="e.g. BNR-001" />
+            </div>
+            <div class="pc-field" style="flex:2;">
+              <label class="pc-label">Hotel Name</label>
+              <input type="text" class="pc-input" id="bk-f-hotel" placeholder="Search hotel…" />
+            </div>
+            <div class="pc-field" style="flex:2;">
+              <label class="pc-label">Main Guest</label>
+              <input type="text" class="pc-input" id="bk-f-guest" placeholder="Search guest…" />
+            </div>
+            <div class="pc-field pc-field-action" style="padding-top:1px;">
+              <button class="pc-search-btn" id="bk-search-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                Search
+              </button>
+            </div>
+            <div class="pc-field pc-field-action" style="padding-top:1px;">
+              <button class="bk-reset-btn" id="bk-reset-btn">Reset</button>
+            </div>
+          </div>
+
+          <!-- Divider + advanced toggle -->
+          <div class="bk-adv-toggle" id="bk-adv-toggle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            Advanced Filters
+            <svg class="bk-adv-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+
+          <!-- Advanced filters (collapsible) -->
+          <div class="bk-adv-panel" id="bk-adv-panel" style="display:none;">
+
+            <!-- Date ranges -->
+            <div class="bk-filter-row">
+              <div class="bk-range-group">
+                <div class="pc-label">Booking Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="bk-f-bdate-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="bk-f-bdate-to" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Check-in Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="bk-f-ci-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="bk-f-ci-to" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Check-out Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="bk-f-co-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="bk-f-co-to" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Cost ranges -->
+            <div class="bk-filter-row" style="margin-top:12px;">
+              <div class="bk-range-group">
+                <div class="pc-label">Booking Cost (USD)</div>
+                <div class="bk-range-inputs">
+                  <input type="number" class="pc-input" id="bk-f-cost-min" placeholder="Min" min="0" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="number" class="pc-input" id="bk-f-cost-max" placeholder="Max" min="0" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Cancellation Fee (USD)</div>
+                <div class="bk-range-inputs">
+                  <input type="number" class="pc-input" id="bk-f-cfee-min" placeholder="Min" min="0" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="number" class="pc-input" id="bk-f-cfee-max" placeholder="Max" min="0" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Final Cost (USD)</div>
+                <div class="bk-range-inputs">
+                  <input type="number" class="pc-input" id="bk-f-net-min" placeholder="Min" min="0" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="number" class="pc-input" id="bk-f-net-max" placeholder="Max" min="0" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Status + Payment status -->
+            <div class="bk-filter-row" style="margin-top:12px;align-items:flex-start;">
+              <div class="bk-check-group">
+                <div class="pc-label" style="margin-bottom:8px;">Status</div>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-status" value="confirmed" checked /> Confirmed</label>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-status" value="cancelled" checked /> Cancelled</label>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-status" value="pending"   checked /> Pending</label>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-status" value="noshow"    checked /> No Show</label>
+              </div>
+              <div class="bk-check-group">
+                <div class="pc-label" style="margin-bottom:8px;">Payment Status</div>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-pay" value="due_future" checked /> Due in X days</label>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-pay" value="due_today"  checked /> Payment Due</label>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-pay" value="overdue"    checked /> Payment Overdue</label>
+                <label class="bk-check-label"><input type="checkbox" class="bk-f-pay" value="paid"       checked /> Paid</label>
+              </div>
+            </div>
+
+          </div><!-- /adv-panel -->
+        </div><!-- /filter card -->
+
+        <!-- Results -->
+        <div class="bk-table-meta" id="bk-table-meta"></div>
+        <div class="hd-table-wrap">
+          <table class="hd-table bk-table" id="bk-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Booking Date</th>
+                <th>Check-in</th>
+                <th>Hotel Name</th>
+                <th>Main Guest</th>
+                <th>Booking Cost</th>
+                <th>Status</th>
+                <th>Final Cost</th>
+                <th>Payment Status</th>
+                <th style="width:40px;"></th>
+              </tr>
+            </thead>
+            <tbody id="bk-tbody"></tbody>
+          </table>
+        </div>
+        <div class="hd-empty" id="bk-no-results" style="display:none;">No bookings match the current filters.</div>
+
+      </div>
+
+      <!-- ========== SUPPORT PAGE ========== -->
+      <div class="page" id="page-support">
+        <div class="placeholder-page">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <h2>Support</h2>
+          <p>Ticket management coming soon</p>
+        </div>
+      </div>
+
+      <!-- ========== FINANCE PAGE ========== -->
+      <div class="page" id="page-finance">
+        <div class="placeholder-page">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <h2>Finance</h2>
+          <p>Invoices & payment history coming soon</p>
+        </div>
+      </div>
+
+      <!-- ========== USERS PAGE ========== -->
+      <div class="page" id="page-users">
+        <div class="placeholder-page">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <h2>Users</h2>
+          <p>Team management coming soon</p>
+        </div>
+      </div>
+
+      <!-- ========== ACCOUNT PAGE ========== -->
+      <div class="page" id="page-account">
+        <div class="placeholder-page">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0 1 16 0v1"/>
+          </svg>
+          <h2>Account</h2>
+          <p>Profile & settings coming soon</p>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- ===== CART PANEL ===== -->
+<div class="cart-panel" id="cart-panel" style="display:none;">
+  <div class="cart-panel-header">
+    <div class="cart-panel-title">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Cart <span class="cart-badge" id="cart-badge">0</span>
+    </div>
+    <button class="cart-toggle" id="cart-toggle">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg>
+    </button>
+  </div>
+  <div class="cart-body" id="cart-body">
+    <div id="cart-items"></div>
+    <div class="cart-total-row">
+      <span>Total</span>
+      <span id="cart-total">$0</span>
+    </div>
+    <button class="cart-book-btn" id="cart-book-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Book Now
+    </button>
+  </div>
+</div>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div class="modal-overlay" id="booking-modal">
+  <div class="modal booking-modal-inner">
+    <div class="modal-header">
+      <div class="modal-title">Complete Booking</div>
+      <button class="modal-close" id="booking-modal-close">✕</button>
+    </div>
+    <div class="booking-modal-scroll">
+
+      <!-- Summary -->
+      <div class="bk-section-title">Booking Summary</div>
+      <div class="bk-summary-table" id="bk-summary"></div>
+
+      <!-- Guest details (generated dynamically) -->
+      <div class="bk-section-title" style="margin-top:20px;">Guest Details</div>
+      <div id="bk-guests"></div>
+
+      <!-- Booking details -->
+      <div class="bk-section-title" style="margin-top:20px;">Booking Details</div>
+      <div class="bk-form-grid">
+        <div class="pc-field">
+          <label class="pc-label">Email</label>
+          <input type="email" class="pc-input" id="bk-email" placeholder="guest@example.com" />
+        </div>
+        <div class="pc-field">
+          <label class="pc-label">Phone Number</label>
+          <input type="tel" class="pc-input" id="bk-phone" placeholder="+971 50 000 0000" />
+        </div>
+        <div class="pc-field">
+          <label class="pc-label">Expected Arrival Time</label>
+          <input type="text" class="pc-input" id="bk-arrival" placeholder="dd/mm/yyyy hh:mm" />
+        </div>
+        <div class="pc-field" style="grid-column:1/-1;">
+          <label class="pc-label">Comments</label>
+          <textarea class="pc-input pc-textarea" id="bk-comments" placeholder="Special requests, preferences…"></textarea>
+        </div>
+      </div>
+
+      <div class="bk-error" id="bk-error" style="display:none;"></div>
+
+      <button class="hd-download-btn" id="bk-confirm-btn" style="width:100%;justify-content:center;margin-top:20px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Confirm Booking
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BOOKING CONFIRMATION ===== -->
+<div class="modal-overlay" id="booking-confirm-modal">
+  <div class="modal" style="text-align:center;padding:40px 32px;">
+    <div style="width:56px;height:56px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:8px;">Booking Request Sent</h2>
+    <p style="color:var(--text-sec);font-size:13px;margin-bottom:24px;">Your booking request has been submitted. You'll receive a confirmation by email shortly.</p>
+    <div style="font-family:'Courier New',monospace;font-size:13px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:24px;">
+      Ref: <strong id="bk-ref"></strong>
+    </div>
+    <button class="hd-download-btn" id="bk-confirm-close" style="justify-content:center;">Close</button>
+  </div>
+</div>
+
+<!-- Token modal -->
+<div class="modal-overlay" id="token-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Token &amp; Session</div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-field">
+      <div class="modal-label">API Token</div>
+      <div class="modal-value">
+        <span id="token-value">bnt_live_xK92mPqR4vN7wL3dZ8aY5cJ1</span>
+        <button class="copy-btn" data-copy="token-value">Copy</button>
+      </div>
+    </div>
+    <div class="modal-field">
+      <div class="modal-label">Session ID</div>
+      <div class="modal-value">
+        <span id="session-value">sess_a3f8e2d1-b94c-4f72-9c10-7e5d3a2b6f81</span>
+        <button class="copy-btn" data-copy="session-value">Copy</button>
+      </div>
+    </div>
+    <div class="modal-field">
+      <div class="modal-label">Session Expires</div>
+      <div class="modal-value" style="font-family:inherit;font-size:13px;">
+        <span id="session-expiry">—</span>
+      </div>
+    </div>
+    <div class="modal-info">Keep your API token confidential. Rotate it in Account settings if compromised.</div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/hotel-dump.js"></script>
+<script src="js/price-check.js"></script>
+<script src="js/bookings.js"></script>
+</body>
+</html>
