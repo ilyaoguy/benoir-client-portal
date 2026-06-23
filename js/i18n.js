@@ -121,10 +121,10 @@ const TRANSLATIONS = {
     'auth.footer':       'Benoir Travel · Secure Client Portal',
 
     /* ── Finance ── */
-    'fin.overdue':        'Payment Overdue',
+    'fin.overdue':        'Overdue',
     'fin.due':            'Payment Due',
-    'fin.upcoming':       'Upcoming Payments',
-    'fin.inv_dl':         'Invoice Download',
+    'fin.upcoming':       'Upcoming Payment',
+    'fin.inv_dl':         'Create an Invoice',
     'fin.deposit':        'Deposit',
     'fin.balance':        'Available balance',
     'fin.leverage':       'Leverage Available',
@@ -230,11 +230,11 @@ const TRANSLATIONS = {
     'home.barometer':  "Today's Barometer",
     'home.fin':        'Finance',
     'home.sales':      'Sales (USD)',
-    'home.bookings':   'Bookings',
-    'home.confirmed':  'Confirmed',
-    'home.cancels':    'Cancellations',
+    'home.bookings':   'Bookings Made',
+    'home.confirmed':  'Bookings Confirmed',
+    'home.cancels':    'Cancelled',
     'home.avg_val':    'Avg Booking Value',
-    'home.lead_time':  'Lead Time',
+    'home.lead_time':  'Avg Lead Time',
     'home.los':        'Length of Stay',
     'baro.checkins':   'Check-ins',
     'baro.checkouts':  'Check-outs',
@@ -493,7 +493,7 @@ const TRANSLATIONS = {
     'btn.xlsx':     'XLSX',
     'adv.toggle':   'Расширенные фильтры',
     'lbl.status':   'Статус',
-    'lbl.payment':  'Статус оплаты',
+    'lbl.payment':  'Оплата',
     'no.results':   'Нет бронирований, соответствующих фильтрам.',
 
     /* ── Filter labels ── */
@@ -536,7 +536,7 @@ const TRANSLATIONS = {
     'pay.paid':       'Оплачено',
     'pay.due_today':  'Срок сегодня',
     'pay.overdue':    'Просрочено',
-    'pay.due_in':     'Срок через',
+    'pay.due_in':     'Через',
     'pay.days_abbr':  'д',
 
     /* ── Booking table toolbar ── */
@@ -578,13 +578,13 @@ const TRANSLATIONS = {
     'auth.footer':       'Benoir Travel · Защищённый клиентский портал',
 
     /* ── Finance ── */
-    'fin.overdue':        'Просроченные платежи',
+    'fin.overdue':        'Оплата просрочена',
     'fin.due':            'К оплате',
-    'fin.upcoming':       'Предстоящие платежи',
-    'fin.inv_dl':         'Скачать счёт',
+    'fin.upcoming':       'Будущий платёж',
+    'fin.inv_dl':         'Создать инвойс',
     'fin.deposit':        'Депозит',
     'fin.balance':        'Доступный баланс',
-    'fin.leverage':       'Кредитное плечо',
+    'fin.leverage':       'Коэффициент Лимита',
     'fin.leverage_sub':   'Кредитный лимит / депозит',
     'fin.credit':         'Кредитный лимит',
     'fin.extra_dep':      'Счёт на доп. депозит',
@@ -687,11 +687,11 @@ const TRANSLATIONS = {
     'home.barometer':  'Барометр сегодня',
     'home.fin':        'Финансы',
     'home.sales':      'Продажи (USD)',
-    'home.bookings':   'Бронирования',
-    'home.confirmed':  'Подтверждено',
-    'home.cancels':    'Отмены',
+    'home.bookings':   'Бронирований сделано',
+    'home.confirmed':  'Бронирований подтверждено',
+    'home.cancels':    'Отменено',
     'home.avg_val':    'Средняя стоимость',
-    'home.lead_time':  'Время опережения',
+    'home.lead_time':  'Ср. время до заезда',
     'home.los':        'Длительность пребывания',
     'baro.checkins':   'Заезды',
     'baro.checkouts':  'Выезды',
@@ -711,7 +711,7 @@ const TRANSLATIONS = {
     'home.fin.urgent':   'Срочно',
     'home.chart':      'Продажи и бронирования',
     'home.days':       'дней',
-    'home.nts':        'н',
+    'home.nts':        'дн.',
 
     /* ── Hotel Dump page ── */
     'hd.title':          'База отелей',
@@ -759,7 +759,7 @@ const TRANSLATIONS = {
     'pc.no_results':   'Нет доступных вариантов для выбранных дат и параметров.',
 
     /* ── Payment filter checkbox ── */
-    'pay.due_in_x':    'Срок через X дней',
+    'pay.due_in_x':    'Через X дней',
     'pay.due_label':   'К оплате сегодня',
     'pay.over_label':  'Просрочен',
 
@@ -931,6 +931,12 @@ function tPlural(n, singular, plural) {
 
 /* ── Apply all static translations ── */
 function applyTranslations() {
+  /* Topbar title for active page */
+  const activePage = document.querySelector('.page.active');
+  if (activePage && typeof updateTopbarTitle === 'function') {
+    updateTopbarTitle(activePage.id.replace('page-', ''));
+  }
+
   /* Nav section labels */
   const navSections = document.querySelectorAll('.nav-section-label');
   const sectionKeys = ['nav.main', 'nav.operations', 'nav.tools', 'nav.admin'];
@@ -1127,6 +1133,10 @@ function applyTranslations() {
   _setText('#bk-search-btn', 'text', 'btn.search');
   _setText('#bk-reset-btn',  'text', 'btn.reset');
   _setText('#bk-adv-toggle', 'adv', 'adv.toggle');
+  /* Bookings filter check-group titles */
+  const bkCheckGroups = document.querySelectorAll('#page-bookings .bk-check-group .pc-label');
+  if (bkCheckGroups[0]) bkCheckGroups[0].textContent = t('lbl.status');
+  if (bkCheckGroups[1]) bkCheckGroups[1].textContent = t('lbl.payment');
   _setCheckLabels('#page-bookings .bk-f-status',
     ['status.confirmed','status.cancelled','status.pending','status.noshow']);
   _setCheckLabels('#page-bookings .bk-f-pay',
@@ -1148,6 +1158,9 @@ function applyTranslations() {
   _setText('#sup-search-btn', 'text', 'btn.search');
   _setText('#sup-reset-btn',  'text', 'btn.reset');
   _setText('#sup-adv-toggle', 'adv', 'adv.toggle');
+  /* Support filter check-group title */
+  const supCheckGroup = document.querySelector('#page-support .bk-check-group .pc-label');
+  if (supCheckGroup) supCheckGroup.textContent = t('lbl.status');
   _setCheckLabels('#page-support .sup-f-status',
     ['status.confirmed','status.cancelled','status.pending','status.noshow']);
   _setTableHeaders('#sup-table thead tr',
@@ -1187,6 +1200,10 @@ function applyTranslations() {
   _setText('#fin-search-btn', 'text', 'btn.search');
   _setText('#fin-reset-btn',  'text', 'btn.reset');
   _setText('#fin-adv-toggle', 'adv', 'adv.toggle');
+  /* Finance filter check-group titles */
+  const finCheckGroups = document.querySelectorAll('#page-finance .bk-check-group .pc-label');
+  if (finCheckGroups[0]) finCheckGroups[0].textContent = t('lbl.status');
+  if (finCheckGroups[1]) finCheckGroups[1].textContent = t('lbl.payment');
   _setCheckLabels('#page-finance .fin-f-status',
     ['status.confirmed','status.cancelled','status.pending','status.noshow']);
   _setCheckLabels('#page-finance .fin-f-pay',
@@ -1319,9 +1336,13 @@ function _setText(sel, mode, key) {
   if (mode === 'placeholder') { el.placeholder = t(key); }
   else if (mode === 'text')   { el.textContent = t(key); }
   else if (mode === 'dl')     {
-    // keep the SVG, replace trailing text node
-    const textNodes = [...el.childNodes].filter(n => n.nodeType === 3);
-    textNodes.forEach(n => n.textContent = ' ' + t(key));
+    // keep the SVG, replace or create trailing text node
+    const textNodes = [...el.childNodes].filter(n => n.nodeType === 3 && n.textContent.trim());
+    if (textNodes.length) {
+      textNodes.forEach(n => n.textContent = ' ' + t(key));
+    } else {
+      el.appendChild(document.createTextNode(' ' + t(key)));
+    }
   } else if (mode === 'adv')  {
     // advanced filter toggle — keep the SVGs
     const svgs = el.querySelectorAll('svg');
@@ -1359,7 +1380,7 @@ function _setCheckLabels(sel, keys) {
 }
 
 function _setFinCardLabel(idx, key) {
-  const cards = document.querySelectorAll('.fin-card');
+  const cards = document.querySelectorAll('#page-finance .fin-card');
   const card  = cards[idx];
   if (!card) return;
   const lbl = card.querySelector('.fin-card-label');
@@ -1390,6 +1411,7 @@ function rerenderActive() {
   const active = document.querySelector('.page.active');
   if (!active) return;
   const id = active.id;
+  if (id === 'page-home' && typeof updateDashboard === 'function') updateDashboard();
   if (id === 'page-bookings' && typeof renderBookings === 'function') {
     renderBookings(typeof currentFilteredBookings !== 'undefined' ? currentFilteredBookings : BOOKINGS);
   }
