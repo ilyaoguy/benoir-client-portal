@@ -86,10 +86,10 @@ let currentRange = '30d';
 let salesChart = null;
 
 const rangeLabels = {
-  '7d': 'Last 7 days',
-  '30d': 'Last 30 days',
-  '90d': 'Last 90 days',
-  'ytd': 'Year to date',
+  '7d': () => t('range.7d'),
+  '30d': () => t('range.30d'),
+  '90d': () => t('range.90d'),
+  'ytd': () => t('range.ytd'),
 };
 
 // ---- Navigation ----
@@ -106,19 +106,13 @@ document.querySelectorAll('.nav-item').forEach(item => {
 });
 
 function updateTopbarTitle(page) {
-  const titles = {
-    home:         { title: 'Dashboard',           sub: 'Overview for ' + getDateRangeStr() },
-    bookings:     { title: 'Bookings',            sub: 'Search and manage your bookings' },
-    support:      { title: 'Support',             sub: 'Get help & submit tickets' },
-    finance:      { title: 'Finance',             sub: 'Invoices, payments & credit' },
-    'hotel-dump': { title: 'Hotel Dump & ID Search', sub: 'Download inventory and look up hotel IDs' },
-    'price-check':{ title: 'Price Check & Book',  sub: 'Live pricing and booking' },
-    users:        { title: 'Users',               sub: 'Team members & permissions' },
-    account:      { title: 'Account',             sub: 'Settings & preferences' },
-  };
-  const t = titles[page] || titles.home;
-  document.querySelector('.topbar-left h1').textContent = t.title;
-  document.querySelector('.topbar-left p').textContent = t.sub;
+  const pageKey = page.replace('-', '_');
+  const title   = t('page.' + pageKey) || 'Dashboard';
+  const sub     = page === 'home'
+    ? t('page.home_sub').replace('{range}', getDateRangeStr())
+    : (t('page.' + pageKey + '_sub') || '');
+  document.querySelector('.topbar-left h1').textContent = title;
+  document.querySelector('.topbar-left p').textContent = sub;
 }
 
 // ---- Date range picker ----
@@ -142,11 +136,11 @@ document.querySelectorAll('.date-option').forEach(opt => {
     currentRange = opt.dataset.range;
     document.querySelectorAll('.date-option').forEach(o => o.classList.remove('active'));
     opt.classList.add('active');
-    dateBtn.querySelector('.date-label').textContent = rangeLabels[currentRange];
+    dateBtn.querySelector('.date-label').textContent = rangeLabels[currentRange]();
     dateDropdown.classList.remove('open');
     dropdownOverlay.classList.remove('open');
     updateDashboard();
-    document.querySelector('.topbar-left p').textContent = 'Overview for ' + getDateRangeStr();
+    document.querySelector('.topbar-left p').textContent = t('page.home_sub').replace('{range}', getDateRangeStr());
   });
 });
 
@@ -172,8 +166,8 @@ function updateDashboard() {
   setKPI('kpi-confirmed',     d.confirmed,               pct(d.confirmed, d.confirmedPrev));
   setKPI('kpi-cancellations', d.cancellations,           pct(d.cancellations, d.cancellationsPrev, true));
   setKPI('kpi-avgvalue',      '$' + fmt(d.avgValue),     pct(d.avgValue, d.avgValuePrev));
-  setKPI('kpi-leadtime',      d.leadTime + ' days',      pct(d.leadTime, d.leadTimePrev));
-  setKPI('kpi-los',           d.los.toFixed(1) + ' nts', pct(d.los, d.losPrev));
+  setKPI('kpi-leadtime',      d.leadTime + ' ' + t('home.days'), pct(d.leadTime, d.leadTimePrev));
+  setKPI('kpi-los',           d.los.toFixed(1) + ' ' + t('home.nts'), pct(d.los, d.losPrev));
 
   updateChart(d.daily);
 }
@@ -205,7 +199,7 @@ function fmt(n) {
 function renderFinance() {
   const usagePct = Math.round((financeData.creditUsed / financeData.creditLimit) * 100);
   document.getElementById('fin-credit-limit').textContent = '$' + financeData.creditLimit.toLocaleString();
-  document.getElementById('fin-credit-used').textContent  = '$' + financeData.creditUsed.toLocaleString() + ' used';
+  document.getElementById('fin-credit-used').textContent  = '$' + financeData.creditUsed.toLocaleString() + ' ' + t('home.fin.used');
 
   const bar = document.getElementById('credit-bar-fill');
   bar.style.width = usagePct + '%';
@@ -217,7 +211,7 @@ function renderFinance() {
 
   const daysEl = document.getElementById('fin-days-badge');
   daysEl.className = 'badge ' + (financeData.daysLeft <= 5 ? 'red' : financeData.daysLeft <= 14 ? 'amber' : 'green');
-  daysEl.textContent = financeData.daysLeft <= 5 ? 'Urgent' : financeData.daysLeft <= 14 ? 'Due soon' : 'On track';
+  daysEl.textContent = financeData.daysLeft <= 5 ? t('home.fin.urgent') : financeData.daysLeft <= 14 ? t('home.fin.due_soon') : t('home.fin.on_track');
 }
 
 // ---- Chart ----
@@ -236,7 +230,7 @@ function updateChart(daily) {
       datasets: [
         {
           type: 'bar',
-          label: 'Sales (USD)',
+          label: t('home.sales'),
           data: sales,
           backgroundColor: 'rgba(0,212,255,.2)',
           borderColor: '#00D4FF',
@@ -246,7 +240,7 @@ function updateChart(daily) {
         },
         {
           type: 'line',
-          label: 'Bookings',
+          label: t('home.bookings'),
           data: bookings,
           borderColor: '#0A2540',
           backgroundColor: 'rgba(10,37,64,.07)',

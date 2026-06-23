@@ -210,13 +210,13 @@ function payStatusKey(b) {
 
 function payStatusLabel(b) {
   const key = payStatusKey(b);
-  if (key === 'paid')       return { label:'Paid', cls:'pay-paid' };
+  if (key === 'paid')       return { label: t('pay.paid'), cls:'pay-paid' };
   if (key === 'due_future') {
     const diff = Math.round((new Date(b.payDue) - TODAY) / 86400000);
-    return { label:`Due in ${diff} day${diff!==1?'s':''}`, cls:'pay-due-future' };
+    return { label:`${t('pay.due_in')} ${diff}${t('pay.days_abbr')}`, cls:'pay-due-future' };
   }
-  if (key === 'due_today')  return { label:'Payment Due', cls:'pay-due-today' };
-  return { label:'Payment Overdue', cls:'pay-overdue' };
+  if (key === 'due_today')  return { label: t('pay.due_today'), cls:'pay-due-today' };
+  return { label: t('pay.overdue'), cls:'pay-overdue' };
 }
 
 function fmtDate(iso) {
@@ -240,13 +240,14 @@ function finalCost(b) {
 let expandedId = null;
 
 function renderBookings(list) {
+  currentFilteredBookings = list;
   const tbody = document.getElementById('bk-tbody');
   const noRes = document.getElementById('bk-no-results');
   const meta  = document.getElementById('bk-table-meta');
   tbody.innerHTML = '';
   expandedId = null;
 
-  meta.textContent = `${list.length} booking${list.length!==1?'s':''}`;
+  meta.textContent = list.length === 1 ? t('toolbar.results').replace('{n}', 1) : t('toolbar.results_pl').replace('{n}', list.length);
   if (list.length === 0) { noRes.style.display = 'block'; return; }
   noRes.style.display = 'none';
 
@@ -254,8 +255,7 @@ function renderBookings(list) {
     const pay       = payStatusLabel(b);
     const fc        = finalCost(b);
     const statusCls = `status-${b.status}`;
-    const statusLbl = b.status === 'noshow' ? 'No Show'
-                    : b.status.charAt(0).toUpperCase() + b.status.slice(1);
+    const statusLbl = t(`status.${b.status}`) || (b.status.charAt(0).toUpperCase() + b.status.slice(1));
 
     const tr = document.createElement('tr');
     tr.dataset.id = b.id;
@@ -267,7 +267,6 @@ function renderBookings(list) {
       <td>${b.guest}</td>
       <td>$${b.cost.toLocaleString()}</td>
       <td><span class="badge ${statusCls}">${statusLbl}</span></td>
-      <td>$${fc.toLocaleString()}</td>
       <td><span class="badge ${pay.cls}">${pay.label}</span></td>
       <td>
         <button class="bk-show-more-btn" data-id="${b.id}" title="Show details">
@@ -311,52 +310,56 @@ function buildDetailHTML(b) {
         </div>
         <div class="bk-room-detail-grid">
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Check-in</div>
+            <div class="bk-detail-label">${t('det.checkin')}</div>
             <div class="bk-detail-value">${fmtDate(b.checkIn)}</div>
           </div>
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Check-out</div>
+            <div class="bk-detail-label">${t('det.checkout')}</div>
             <div class="bk-detail-value">${fmtDate(b.checkOut)}</div>
           </div>
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Length of Stay</div>
-            <div class="bk-detail-value">${nights} night${nights!==1?'s':''}</div>
+            <div class="bk-detail-label">${t('det.los')}</div>
+            <div class="bk-detail-value">${nights} ${nights !== 1 ? t('det.nights') : t('det.night')}</div>
           </div>
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Meal Plan</div>
+            <div class="bk-detail-label">${t('det.final_cost')}</div>
+            <div class="bk-detail-value" style="font-weight:600;">$${finalCost(b).toLocaleString()}</div>
+          </div>
+          <div class="bk-detail-item">
+            <div class="bk-detail-label">${t('det.meal')}</div>
             <div class="bk-detail-value">${r.meal}</div>
           </div>
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Bed Type</div>
+            <div class="bk-detail-label">${t('det.bed')}</div>
             <div class="bk-detail-value">${r.bedType}</div>
           </div>
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Guests</div>
-            <div class="bk-detail-value">${r.guestCount} guest${r.guestCount!==1?'s':''}</div>
+            <div class="bk-detail-label">${t('det.guests')}</div>
+            <div class="bk-detail-value">${r.guestCount} ${r.guestCount !== 1 ? t('det.guests') : t('det.guests')}</div>
           </div>
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Today's Cancel Fee</div>
+            <div class="bk-detail-label">${t('det.cancel_fee')}</div>
             <div class="bk-detail-value">${b.status === 'cancelled' || b.status === 'noshow' ? '—' : todayFeeStr}</div>
           </div>
           <div class="bk-detail-item" style="grid-column:1/-1;">
-            <div class="bk-detail-label">Guest Names</div>
+            <div class="bk-detail-label">${t('det.guests')}</div>
             <div class="bk-detail-value">${r.guests.join(' · ')}</div>
           </div>
           ${r.arrivalTime ? `
           <div class="bk-detail-item">
-            <div class="bk-detail-label">Expected Arrival</div>
+            <div class="bk-detail-label">${t('det.arrival')}</div>
             <div class="bk-detail-value">${r.arrivalTime}</div>
           </div>` : ''}
           ${r.notes ? `
           <div class="bk-detail-item" style="grid-column:1/-1;">
-            <div class="bk-detail-label">Notes</div>
+            <div class="bk-detail-label">${t('det.notes')}</div>
             <div class="bk-detail-value bk-notes">${r.notes}</div>
           </div>` : ''}
         </div>
 
         <div class="bk-policy-toggle" data-policy="${policyId}">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Cancellation Policy: <strong>${policy.label}</strong>
+          ${t('det.cancel_policy')}: <strong>${policy.label}</strong>
           <svg class="bk-policy-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="bk-policy-rules" id="${policyId}" style="display:none;">
@@ -429,10 +432,6 @@ function getFilters() {
     coTo:        document.getElementById('bk-f-co-to').value,
     costMin:     document.getElementById('bk-f-cost-min').value,
     costMax:     document.getElementById('bk-f-cost-max').value,
-    cfeeMin:     document.getElementById('bk-f-cfee-min').value,
-    cfeeMax:     document.getElementById('bk-f-cfee-max').value,
-    netMin:      document.getElementById('bk-f-net-min').value,
-    netMax:      document.getElementById('bk-f-net-max').value,
     statuses:    [...document.querySelectorAll('.bk-f-status:checked')].map(x => x.value),
     payStatuses: [...document.querySelectorAll('.bk-f-pay:checked')].map(x => x.value),
   };
@@ -452,11 +451,6 @@ function applyFilters() {
     if (f.coTo   && b.checkOut > f.coTo)   return false;
     if (f.costMin !== '' && b.cost < +f.costMin) return false;
     if (f.costMax !== '' && b.cost > +f.costMax) return false;
-    if (f.cfeeMin !== '' && b.cancelFee < +f.cfeeMin) return false;
-    if (f.cfeeMax !== '' && b.cancelFee > +f.cfeeMax) return false;
-    const fc = finalCost(b);
-    if (f.netMin !== '' && fc < +f.netMin) return false;
-    if (f.netMax !== '' && fc > +f.netMax) return false;
     if (f.statuses.length    && !f.statuses.includes(b.status))     return false;
     if (f.payStatuses.length && !f.payStatuses.includes(payStatusKey(b))) return false;
     return true;
@@ -481,12 +475,56 @@ document.getElementById('bk-search-btn').addEventListener('click', applyFilters)
 document.getElementById('bk-reset-btn').addEventListener('click', () => {
   ['bk-f-id','bk-f-hotel','bk-f-guest','bk-f-bdate-from','bk-f-bdate-to',
    'bk-f-ci-from','bk-f-ci-to','bk-f-co-from','bk-f-co-to',
-   'bk-f-cost-min','bk-f-cost-max','bk-f-cfee-min','bk-f-cfee-max',
-   'bk-f-net-min','bk-f-net-max'].forEach(id => {
+   'bk-f-cost-min','bk-f-cost-max'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   document.querySelectorAll('.bk-f-status, .bk-f-pay').forEach(cb => cb.checked = true);
   renderBookings(BOOKINGS);
+});
+
+// ---- Download ----
+let currentFilteredBookings = BOOKINGS;
+
+function bookingsToRows(list) {
+  return list.map(b => ({
+    'Booking ID':     b.id,
+    'Booking Date':   fmtDate(b.bookingDate),
+    'Check-in':       fmtDate(b.checkIn),
+    'Check-out':      fmtDate(b.checkOut),
+    'Hotel Name':     b.hotel,
+    'Main Guest':     b.guest,
+    'Rooms':          b.rooms.length,
+    'Booking Cost':   b.cost,
+    'Final Cost':     finalCost(b),
+    'Status':         b.status === 'noshow' ? 'No Show' : b.status.charAt(0).toUpperCase() + b.status.slice(1),
+    'Payment Status': payStatusLabel(b).label,
+    'Payment Due':    fmtDate(b.payDue),
+    'Nights':         nightsBetween(b.checkIn, b.checkOut),
+  }));
+}
+
+document.getElementById('bk-dl-csv').addEventListener('click', () => {
+  const rows = bookingsToRows(currentFilteredBookings);
+  const headers = Object.keys(rows[0]);
+  const csv = [headers.join(','), ...rows.map(r =>
+    headers.map(h => {
+      const v = String(r[h] ?? '');
+      return v.includes(',') || v.includes('"') ? `"${v.replace(/"/g, '""')}"` : v;
+    }).join(',')
+  )].join('\r\n');
+
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = `bookings_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+});
+
+document.getElementById('bk-dl-xlsx').addEventListener('click', () => {
+  const rows = bookingsToRows(currentFilteredBookings);
+  const ws   = XLSX.utils.json_to_sheet(rows);
+  const wb   = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Bookings');
+  XLSX.writeFile(wb, `bookings_${new Date().toISOString().slice(0,10)}.xlsx`);
 });
 
 document.querySelector('[data-page="bookings"]').addEventListener('click', () => {

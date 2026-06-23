@@ -5,9 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Benoir Travel — Client Portal</title>
   <link rel="icon" type="image/svg+xml" href="assets/Favicon_white.svg" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=3" />
 </head>
 <body>
+
+<!-- ===== AUTH OVERLAY ===== -->
+<div id="auth-overlay">
+  <div class="auth-wrap">
+    <div class="auth-logo">Benoir<span class="auth-logo-dot">.</span></div>
+    <div class="auth-tagline">Client Portal</div>
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-auth-tab="token">Admin Token</button>
+        <button class="auth-tab" data-auth-tab="user">User Sign In</button>
+      </div>
+
+      <div class="auth-panel" id="auth-panel-token">
+        <div class="auth-hint">Enter the admin token associated with this organisation.</div>
+        <div class="auth-field">
+          <label class="auth-label">Admin Token</label>
+          <div class="auth-token-row">
+            <input type="password" id="auth-token-input" class="auth-input" placeholder="BNR-••••••••••" autocomplete="off" />
+            <button class="auth-eye-btn" id="auth-eye-btn" tabindex="-1" title="Show/hide">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <button class="auth-submit" id="auth-token-submit">Sign In as Admin</button>
+      </div>
+
+      <div class="auth-panel" id="auth-panel-user" style="display:none;">
+        <div class="auth-hint">Sign in with your organisation credentials.</div>
+        <div class="auth-field">
+          <label class="auth-label">Email</label>
+          <input type="email" id="auth-email" class="auth-input" placeholder="you@benoir.com" autocomplete="email" />
+        </div>
+        <div class="auth-field">
+          <label class="auth-label">Password</label>
+          <input type="password" id="auth-password" class="auth-input" placeholder="Password" autocomplete="current-password" />
+        </div>
+        <button class="auth-submit" id="auth-user-submit">Sign In</button>
+      </div>
+
+      <div class="auth-error" id="auth-error" style="display:none;"></div>
+    </div>
+    <div class="auth-footer">Benoir Travel · Secure Client Portal</div>
+  </div>
+</div>
 
 <div class="layout">
 
@@ -87,7 +131,15 @@
       </div>
     </nav>
 
-    <div class="sidebar-footer">v1.0 · Benoir Travel</div>
+    <div class="sidebar-footer">
+  <div class="sidebar-user-block" id="sidebar-user-block">
+    <div class="sidebar-user-av" id="sidebar-user-av">?</div>
+    <div class="sidebar-user-info">
+      <div class="sidebar-user-name" id="sidebar-user-name">—</div>
+      <div class="sidebar-user-role" id="sidebar-user-role">—</div>
+    </div>
+  </div>
+</div>
   </aside>
 
   <!-- ===== MAIN ===== -->
@@ -100,6 +152,10 @@
         <p id="topbar-sub">Overview</p>
       </div>
       <div class="topbar-right">
+        <div class="lang-selector" id="lang-selector">
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="ru">RU</button>
+        </div>
         <button class="date-range-btn" id="date-range-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
@@ -582,22 +638,6 @@
                   <input type="number" class="pc-input" id="bk-f-cost-max" placeholder="Max" min="0" />
                 </div>
               </div>
-              <div class="bk-range-group">
-                <div class="pc-label">Cancellation Fee (USD)</div>
-                <div class="bk-range-inputs">
-                  <input type="number" class="pc-input" id="bk-f-cfee-min" placeholder="Min" min="0" />
-                  <span class="bk-range-sep">—</span>
-                  <input type="number" class="pc-input" id="bk-f-cfee-max" placeholder="Max" min="0" />
-                </div>
-              </div>
-              <div class="bk-range-group">
-                <div class="pc-label">Final Cost (USD)</div>
-                <div class="bk-range-inputs">
-                  <input type="number" class="pc-input" id="bk-f-net-min" placeholder="Min" min="0" />
-                  <span class="bk-range-sep">—</span>
-                  <input type="number" class="pc-input" id="bk-f-net-max" placeholder="Max" min="0" />
-                </div>
-              </div>
             </div>
 
             <!-- Status + Payment status -->
@@ -622,7 +662,19 @@
         </div><!-- /filter card -->
 
         <!-- Results -->
-        <div class="bk-table-meta" id="bk-table-meta"></div>
+        <div class="bk-table-toolbar">
+          <div class="bk-table-meta" id="bk-table-meta"></div>
+          <div class="bk-download-btns">
+            <button class="bk-dl-btn csv" id="bk-dl-csv" title="Download CSV">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              CSV
+            </button>
+            <button class="bk-dl-btn xlsx" id="bk-dl-xlsx" title="Download Excel">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              XLSX
+            </button>
+          </div>
+        </div>
         <div class="hd-table-wrap">
           <table class="hd-table bk-table" id="bk-table">
             <thead>
@@ -634,7 +686,6 @@
                 <th>Main Guest</th>
                 <th>Booking Cost</th>
                 <th>Status</th>
-                <th>Final Cost</th>
                 <th>Payment Status</th>
                 <th style="width:40px;"></th>
               </tr>
@@ -648,45 +699,469 @@
 
       <!-- ========== SUPPORT PAGE ========== -->
       <div class="page" id="page-support">
-        <div class="placeholder-page">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <h2>Support</h2>
-          <p>Ticket management coming soon</p>
+
+        <!-- Filter card -->
+        <div class="card bk-filter-card">
+          <div class="bk-filter-row">
+            <div class="pc-field">
+              <label class="pc-label">Booking ID</label>
+              <input type="text" class="pc-input" id="sup-f-id" placeholder="e.g. BNR-001" />
+            </div>
+            <div class="pc-field">
+              <label class="pc-label">Hotel Name</label>
+              <input type="text" class="pc-input" id="sup-f-hotel" placeholder="Search hotel…" />
+            </div>
+            <div class="pc-field">
+              <label class="pc-label">Main Guest</label>
+              <input type="text" class="pc-input" id="sup-f-guest" placeholder="Search guest…" />
+            </div>
+            <button class="pc-search-btn" id="sup-search-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Search
+            </button>
+            <button class="bk-reset-btn" id="sup-reset-btn">Reset</button>
+          </div>
+
+          <div class="bk-adv-toggle" id="sup-adv-toggle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            Advanced Filters
+            <svg class="bk-adv-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="bk-adv-panel" id="sup-adv-panel" style="display:none;">
+            <div class="bk-filter-row">
+              <div class="bk-range-group">
+                <div class="pc-label">Booking Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="sup-f-bdate-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="sup-f-bdate-to" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Check-in Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="sup-f-ci-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="sup-f-ci-to" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Check-out Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="sup-f-co-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="sup-f-co-to" />
+                </div>
+              </div>
+            </div>
+            <div class="bk-filter-row" style="margin-top:12px;align-items:flex-start;">
+              <div class="bk-check-group">
+                <div class="pc-label" style="margin-bottom:8px;">Status</div>
+                <label class="bk-check-label"><input type="checkbox" class="sup-f-status" value="confirmed" checked /> Confirmed</label>
+                <label class="bk-check-label"><input type="checkbox" class="sup-f-status" value="cancelled" checked /> Cancelled</label>
+                <label class="bk-check-label"><input type="checkbox" class="sup-f-status" value="pending"   checked /> Pending</label>
+                <label class="bk-check-label"><input type="checkbox" class="sup-f-status" value="noshow"    checked /> No Show</label>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Results -->
+        <div class="bk-table-toolbar">
+          <div class="bk-table-meta" id="sup-table-meta"></div>
+        </div>
+        <div class="hd-table-wrap">
+          <table class="hd-table sup-table" id="sup-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Booking Date</th>
+                <th>Check-in</th>
+                <th>Hotel Name</th>
+                <th>Main Guest</th>
+                <th>Status</th>
+                <th style="width:40px;"></th>
+              </tr>
+            </thead>
+            <tbody id="sup-tbody"></tbody>
+          </table>
+        </div>
+        <div class="hd-empty" id="sup-no-results" style="display:none;">No bookings match the current filters.</div>
+
       </div>
 
       <!-- ========== FINANCE PAGE ========== -->
       <div class="page" id="page-finance">
-        <div class="placeholder-page">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-          <h2>Finance</h2>
-          <p>Invoices & payment history coming soon</p>
+
+        <!-- Summary grid -->
+        <div class="fin-summary-grid">
+
+          <!-- Overdue -->
+          <div class="fin-card fin-card-overdue" id="fin-card-overdue">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Payment Overdue
+            </div>
+            <div class="fin-card-amount" id="fin-overdue-amount">—</div>
+            <div class="fin-card-sub" id="fin-overdue-count"></div>
+          </div>
+
+          <!-- Due -->
+          <div class="fin-card fin-card-due">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Payment Due
+            </div>
+            <div class="fin-card-amount" id="fin-due-amount">—</div>
+            <div class="fin-card-sub" id="fin-due-count"></div>
+          </div>
+
+          <!-- Upcoming -->
+          <div class="fin-card fin-card-upcoming">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Upcoming Payments
+            </div>
+            <div class="fin-card-amount" id="fin-upcoming-amount">—</div>
+            <div class="fin-card-sub" id="fin-upcoming-count"></div>
+          </div>
+
+          <!-- Invoice download -->
+          <div class="fin-card fin-card-action">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Invoice Download
+            </div>
+            <div class="fin-invoice-range">
+              <div class="fin-invoice-range-row">
+                <span class="fin-range-lbl">From</span>
+                <input type="date" class="fin-date-input" id="fin-inv-from" />
+              </div>
+              <div class="fin-invoice-range-row">
+                <span class="fin-range-lbl">To</span>
+                <input type="date" class="fin-date-input" id="fin-inv-to" />
+              </div>
+            </div>
+            <button class="fin-action-btn fin-action-btn-navy" id="fin-dl-invoice">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Invoice
+            </button>
+          </div>
+
+          <!-- Deposit -->
+          <div class="fin-card fin-card-deposit">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Deposit
+            </div>
+            <div class="fin-card-amount" id="fin-deposit-amount">—</div>
+            <div class="fin-card-sub">Available balance</div>
+          </div>
+
+          <!-- Leverage -->
+          <div class="fin-card fin-card-leverage">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Leverage Available
+            </div>
+            <div class="fin-card-amount" id="fin-leverage-amount">—</div>
+            <div class="fin-card-sub">Credit limit / deposit ratio</div>
+          </div>
+
+          <!-- Credit Limit -->
+          <div class="fin-card fin-card-credit">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              Credit Limit
+            </div>
+            <div class="fin-card-amount" id="fin-credit-amount">—</div>
+            <div class="fin-credit-bar-wrap">
+              <div class="fin-credit-bar-track">
+                <div class="fin-credit-bar-fill" id="fin-credit-bar"></div>
+              </div>
+              <div class="fin-credit-usage-lbl" id="fin-credit-usage-lbl"></div>
+            </div>
+          </div>
+
+          <!-- Extra Deposit Invoice -->
+          <div class="fin-card fin-card-action">
+            <div class="fin-card-label">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              Extra Deposit Invoice
+            </div>
+            <div class="fin-invoice-range" style="margin-top:10px;">
+              <div class="fin-invoice-range-row">
+                <span class="fin-range-lbl">Amount (USD)</span>
+                <input type="number" class="fin-date-input" id="fin-extra-dep-amount" placeholder="e.g. 10000" min="1" />
+              </div>
+            </div>
+            <button class="fin-action-btn fin-action-btn-green" id="fin-dl-extra-deposit">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Generate Deposit Invoice
+            </button>
+          </div>
+
+        </div><!-- /fin-summary-grid -->
+
+        <!-- Filter panel -->
+        <div class="card bk-filter-card" style="margin-top:18px;">
+          <div class="bk-filter-row">
+            <div class="pc-field" style="flex:1;">
+              <label class="pc-label">Booking ID</label>
+              <input type="text" class="pc-input" id="fin-f-id" placeholder="e.g. BNR-001" />
+            </div>
+            <div class="pc-field" style="flex:2;">
+              <label class="pc-label">Main Guest</label>
+              <input type="text" class="pc-input" id="fin-f-guest" placeholder="Search guest…" />
+            </div>
+            <div class="pc-field pc-field-action" style="padding-top:1px;">
+              <button class="pc-search-btn" id="fin-search-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                Search
+              </button>
+            </div>
+            <div class="pc-field pc-field-action" style="padding-top:1px;">
+              <button class="bk-reset-btn" id="fin-reset-btn">Reset</button>
+            </div>
+          </div>
+
+          <div class="bk-adv-toggle" id="fin-adv-toggle">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            Advanced Filters
+            <svg class="bk-adv-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+
+          <div class="bk-adv-panel" id="fin-adv-panel" style="display:none;">
+            <div class="bk-filter-row">
+              <div class="bk-range-group">
+                <div class="pc-label">Booking Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="fin-f-bdate-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="fin-f-bdate-to" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Check-in Date</div>
+                <div class="bk-range-inputs">
+                  <input type="date" class="pc-input" id="fin-f-ci-from" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="date" class="pc-input" id="fin-f-ci-to" />
+                </div>
+              </div>
+              <div class="bk-range-group">
+                <div class="pc-label">Booking Cost (USD)</div>
+                <div class="bk-range-inputs">
+                  <input type="number" class="pc-input" id="fin-f-cost-min" placeholder="Min" min="0" />
+                  <span class="bk-range-sep">—</span>
+                  <input type="number" class="pc-input" id="fin-f-cost-max" placeholder="Max" min="0" />
+                </div>
+              </div>
+            </div>
+
+            <div class="bk-filter-row" style="margin-top:12px;align-items:flex-start;">
+              <div class="bk-check-group">
+                <div class="pc-label" style="margin-bottom:8px;">Status</div>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-status" value="confirmed" checked /> Confirmed</label>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-status" value="cancelled" checked /> Cancelled</label>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-status" value="pending"   checked /> Pending</label>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-status" value="noshow"    checked /> No Show</label>
+              </div>
+              <div class="bk-check-group">
+                <div class="pc-label" style="margin-bottom:8px;">Payment Status</div>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-pay" value="due_future" checked /> Due in X days</label>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-pay" value="due_today"  checked /> Payment Due</label>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-pay" value="overdue"    checked /> Payment Overdue</label>
+                <label class="bk-check-label"><input type="checkbox" class="fin-f-pay" value="paid"       checked /> Paid</label>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- Table -->
+        <div class="bk-table-toolbar">
+          <div class="bk-table-meta" id="fin-table-meta"></div>
+          <div class="bk-download-btns">
+            <button class="bk-dl-btn csv" id="fin-dl-csv" title="Download CSV">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              CSV
+            </button>
+            <button class="bk-dl-btn xlsx" id="fin-dl-xlsx" title="Download Excel">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              XLSX
+            </button>
+          </div>
+        </div>
+        <div class="hd-table-wrap">
+          <table class="hd-table bk-table fin-table" id="fin-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Booking Date</th>
+                <th>Check-in</th>
+                <th>Hotel Name</th>
+                <th>Main Guest</th>
+                <th>Booking Cost</th>
+                <th>Status</th>
+                <th>Payment Status</th>
+                <th style="width:40px;"></th>
+              </tr>
+            </thead>
+            <tbody id="fin-tbody"></tbody>
+          </table>
+        </div>
+        <div class="hd-empty" id="fin-no-results" style="display:none;">No bookings match the current filters.</div>
+
       </div>
 
       <!-- ========== USERS PAGE ========== -->
       <div class="page" id="page-users">
-        <div class="placeholder-page">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-          <h2>Users</h2>
-          <p>Team management coming soon</p>
+
+        <!-- Admin view -->
+        <div id="users-admin-content">
+          <div class="users-page-hdr">
+            <div>
+              <div class="users-page-title">User Management</div>
+              <div class="users-page-sub" id="users-sub">— users · Benoir Travel</div>
+            </div>
+            <button class="users-add-btn" id="users-add-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add User
+            </button>
+          </div>
+
+          <!-- Add user panel -->
+          <div class="card users-add-panel" id="users-add-panel" style="display:none;">
+            <div class="users-add-title">Invite New User</div>
+            <div class="users-add-grid">
+              <div class="sup-form-field">
+                <label class="sup-form-label">Full Name</label>
+                <input type="text" class="sup-form-input" id="users-add-name" placeholder="e.g. Sarah Chen" />
+              </div>
+              <div class="sup-form-field">
+                <label class="sup-form-label">Email Address</label>
+                <input type="email" class="sup-form-input" id="users-add-email" placeholder="sarah@company.com" />
+              </div>
+              <div class="sup-form-field">
+                <label class="sup-form-label">Role</label>
+                <select class="sup-form-input" id="users-add-role">
+                  <option value="read_only">Read Only</option>
+                  <option value="booking_full">Booking &amp; Modifications</option>
+                </select>
+              </div>
+            </div>
+            <div id="users-section-access-row">
+              <div class="sup-form-label" style="margin-bottom:8px;">Section Access</div>
+              <div class="users-section-checks">
+                <label class="bk-check-label"><input type="checkbox" class="users-add-section" value="bookings" checked disabled /> Bookings <span style="color:var(--text-muted);font-size:10px;">(always)</span></label>
+                <label class="bk-check-label"><input type="checkbox" class="users-add-section" value="support"  /> Support</label>
+                <label class="bk-check-label"><input type="checkbox" class="users-add-section" value="finance"  /> Finance</label>
+              </div>
+            </div>
+            <div class="sup-btn-row" style="margin-top:14px;">
+              <button class="sup-btn sup-btn-primary" id="users-add-submit">Send Invitation</button>
+              <button class="sup-btn sup-btn-outline" id="users-add-cancel">Cancel</button>
+            </div>
+            <div id="users-add-feedback" style="font-size:12px;margin-top:8px;"></div>
+          </div>
+
+          <!-- Users table -->
+          <div class="hd-table-wrap" style="margin-top:16px;">
+            <table class="hd-table users-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Section Access</th>
+                  <th>Status</th>
+                  <th>Last Login</th>
+                  <th style="width:100px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Non-admin view -->
+        <div id="users-restricted" class="placeholder-page" style="display:none;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <h2>Access Restricted</h2>
+          <p>User management is available to administrators only.</p>
         </div>
       </div>
 
       <!-- ========== ACCOUNT PAGE ========== -->
       <div class="page" id="page-account">
-        <div class="placeholder-page">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="8" r="4"/><path d="M4 20v-1a8 8 0 0 1 16 0v1"/>
-          </svg>
-          <h2>Account</h2>
-          <p>Profile & settings coming soon</p>
+        <div class="acct-grid">
+
+          <!-- Organisation -->
+          <div class="card acct-card">
+            <div class="acct-card-hdr">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              Organisation
+            </div>
+            <div class="acct-rows" id="acct-org-rows">
+              <div class="acct-row"><span class="acct-key">Name</span><span class="acct-val" id="acct-org-name">—</span></div>
+              <div class="acct-row"><span class="acct-key">Account ID</span><span class="acct-val acct-mono" id="acct-org-id">—</span></div>
+              <div class="acct-row"><span class="acct-key">Country</span><span class="acct-val" id="acct-org-country">—</span></div>
+              <div class="acct-row"><span class="acct-key">Email</span><span class="acct-val" id="acct-org-email">—</span></div>
+              <div class="acct-row"><span class="acct-key">Phone</span><span class="acct-val" id="acct-org-phone">—</span></div>
+            </div>
+          </div>
+
+          <!-- My Profile -->
+          <div class="card acct-card">
+            <div class="acct-card-hdr">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              My Profile
+            </div>
+            <div class="acct-profile-av" id="acct-profile-av">?</div>
+            <div class="acct-rows">
+              <div class="acct-row"><span class="acct-key">Name</span><span class="acct-val" id="acct-user-name">—</span></div>
+              <div class="acct-row"><span class="acct-key">Email</span><span class="acct-val" id="acct-user-email">—</span></div>
+              <div class="acct-row"><span class="acct-key">Role</span><span class="acct-val" id="acct-user-role-wrap">—</span></div>
+              <div class="acct-row"><span class="acct-key">Member since</span><span class="acct-val" id="acct-user-since">—</span></div>
+              <div class="acct-row"><span class="acct-key">Last login</span><span class="acct-val" id="acct-user-last">—</span></div>
+            </div>
+          </div>
+
+          <!-- Access & Permissions -->
+          <div class="card acct-card">
+            <div class="acct-card-hdr">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              Access &amp; Permissions
+            </div>
+            <div class="acct-rows">
+              <div class="acct-row" style="align-items:flex-start;">
+                <span class="acct-key">Sections</span>
+                <div class="acct-section-tags" id="acct-sections-list"></div>
+              </div>
+              <div class="acct-row"><span class="acct-key">Can modify</span><span class="acct-val" id="acct-can-modify">—</span></div>
+            </div>
+          </div>
+
+          <!-- Admin Token (admin only) -->
+          <div class="card acct-card" id="acct-token-card" style="display:none;">
+            <div class="acct-card-hdr">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Admin Token
+            </div>
+            <div class="acct-rows">
+              <div class="acct-row">
+                <span class="acct-key">Token</span>
+                <div class="acct-token-wrap">
+                  <span class="acct-mono acct-token-val" id="acct-token-display">••••••••••••••••</span>
+                  <button class="acct-token-btn" id="acct-token-reveal">Reveal</button>
+                  <button class="acct-token-btn" id="acct-token-copy">Copy</button>
+                </div>
+              </div>
+              <div class="acct-row"><span class="acct-key">Auth type</span><span class="acct-val">API Token</span></div>
+            </div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:8px;">Keep this token confidential. Use it to sign in as admin and to authenticate API calls on behalf of this organisation.</div>
+          </div>
+
         </div>
       </div>
 
@@ -813,9 +1288,16 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-<script src="js/app.js"></script>
-<script src="js/hotel-dump.js"></script>
-<script src="js/price-check.js"></script>
-<script src="js/bookings.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="js/app.js?v=2"></script>
+<script src="js/hotel-dump.js?v=2"></script>
+<script src="js/auth.js?v=1"></script>
+<script src="js/i18n.js?v=1"></script>
+<script src="js/price-check.js?v=2"></script>
+<script src="js/bookings.js?v=2"></script>
+<script src="js/support.js?v=2"></script>
+<script src="js/finance.js?v=1"></script>
+<script src="js/users.js?v=1"></script>
+<script src="js/account.js?v=1"></script>
 </body>
 </html>
