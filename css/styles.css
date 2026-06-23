@@ -203,8 +203,10 @@ nav { padding: 16px 12px; flex: 1; }
 .overview-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 12px;
+  grid-template-rows: auto auto auto;
+  gap: 12px 12px;
   margin-bottom: 24px;
+  align-items: start;
 }
 
 .kpi-card {
@@ -214,8 +216,10 @@ nav { padding: 16px 12px; flex: 1; }
   padding: 16px;
   box-shadow: var(--shadow);
   transition: box-shadow .2s;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+  row-gap: 0;
 }
 .kpi-card:hover { box-shadow: var(--shadow-lg); }
 
@@ -229,7 +233,6 @@ nav { padding: 16px 12px; flex: 1; }
   display: flex;
   align-items: flex-start;
   gap: 5px;
-  min-height: 30px;
 }
 .kpi-label svg { flex-shrink: 0; margin-top: 1px; }
 
