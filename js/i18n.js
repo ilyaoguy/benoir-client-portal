@@ -691,7 +691,7 @@ const TRANSLATIONS = {
     'home.confirmed':  'Бронирований подтверждено',
     'home.cancels':    'Отменено',
     'home.avg_val':    'Средняя стоимость',
-    'home.lead_time':  'Ср. время до заезда',
+    'home.lead_time':  'Время до заезда',
     'home.los':        'Длительность пребывания',
     'baro.checkins':   'Заезды',
     'baro.checkouts':  'Выезды',

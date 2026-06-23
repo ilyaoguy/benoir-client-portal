@@ -214,6 +214,8 @@ nav { padding: 16px 12px; flex: 1; }
   padding: 16px;
   box-shadow: var(--shadow);
   transition: box-shadow .2s;
+  display: flex;
+  flex-direction: column;
 }
 .kpi-card:hover { box-shadow: var(--shadow-lg); }
 
@@ -225,9 +227,11 @@ nav { padding: 16px 12px; flex: 1; }
   text-transform: uppercase;
   margin-bottom: 8px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
+  min-height: 30px;
 }
+.kpi-label svg { flex-shrink: 0; margin-top: 1px; }
 
 .kpi-icon {
   width: 14px; height: 14px;
